@@ -77,7 +77,7 @@ export function useGame(gameId?: number) {
       id: playerId,
       updates: { 
         role, 
-        revealedAt: new Date()
+        revealedAt: new Date().toISOString()
       }
     });
   };
@@ -87,7 +87,7 @@ export function useGame(gameId?: number) {
       id: playerId,
       updates: { 
         status: "dead", 
-        diedAt: new Date()
+        diedAt: new Date().toISOString()
       }
     });
   };

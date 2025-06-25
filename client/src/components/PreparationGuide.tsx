@@ -1,13 +1,14 @@
-import { useState } from "react";
 import { useGameContext } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RoleSetupModal } from "./RoleSetupModal";
 
-export function PreparationGuide() {
+interface PreparationGuideProps {
+  onShowRoleConfiguration?: () => void;
+  selectedRoles?: Record<string, number>;
+}
+
+export function PreparationGuide({ onShowRoleConfiguration, selectedRoles = {} }: PreparationGuideProps) {
   const { currentPhase, players, dispatch, createPhase } = useGameContext();
-  const [showRoleSetup, setShowRoleSetup] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState<Record<string, number>>({});
 
   if (!currentPhase || currentPhase.type !== "preparation") return null;
 
@@ -16,8 +17,8 @@ export function PreparationGuide() {
 
   const handleNextStep = () => {
     if (currentStepIndex === 1 && Object.keys(selectedRoles).length === 0) {
-      // Open role setup modal at role distribution step
-      setShowRoleSetup(true);
+      // Go to role configuration page
+      onShowRoleConfiguration?.();
       return;
     }
     
@@ -28,12 +29,6 @@ export function PreparationGuide() {
       const nightPhase = createPhase("night", 1);
       dispatch({ type: "SET_PHASE", payload: nightPhase });
     }
-  };
-
-  const handleRoleSetupComplete = (roles: Record<string, number>) => {
-    setSelectedRoles(roles);
-    // Automatically move to next step after role setup
-    dispatch({ type: "NEXT_STEP" });
   };
 
   const canProceed = () => {
@@ -85,7 +80,7 @@ export function PreparationGuide() {
           {currentStepIndex === 1 && Object.keys(selectedRoles).length === 0 ? (
             <Button
               size="sm"
-              onClick={() => setShowRoleSetup(true)}
+              onClick={handleNextStep}
               className="w-full bg-wolf-purple hover:bg-purple-600"
             >
               <i className="fas fa-cog mr-2"></i>
@@ -104,13 +99,6 @@ export function PreparationGuide() {
               <i className="fas fa-arrow-right ml-2"></i>
             </Button>
           )}
-
-          <RoleSetupModal
-            open={showRoleSetup}
-            onClose={() => setShowRoleSetup(false)}
-            playerCount={players.length}
-            onRoleSetupComplete={handleRoleSetupComplete}
-          />
         </div>
       </CardContent>
     </Card>
