@@ -12,7 +12,7 @@ interface PlayersGridProps {
 
 export function PlayersGrid({ gameId }: PlayersGridProps) {
   const { players, createPlayer } = useGame(gameId);
-  const { currentGame } = useGameContext();
+  const { currentGame, currentPhase } = useGameContext();
   const [showAddPlayer, setShowAddPlayer] = useState(false);
   const [newPlayerName, setNewPlayerName] = useState("");
 
@@ -43,13 +43,14 @@ export function PlayersGrid({ gameId }: PlayersGridProps) {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">Gestion des Joueurs</h2>
         <div className="flex space-x-2">
-          <Dialog open={showAddPlayer} onOpenChange={setShowAddPlayer}>
-            <DialogTrigger asChild>
-              <Button className="bg-green-600 hover:bg-green-700">
-                <i className="fas fa-plus mr-2"></i>
-                Ajouter Joueur
-              </Button>
-            </DialogTrigger>
+          {currentPhase?.type === "preparation" && (
+            <Dialog open={showAddPlayer} onOpenChange={setShowAddPlayer}>
+              <DialogTrigger asChild>
+                <Button className="bg-green-600 hover:bg-green-700">
+                  <i className="fas fa-plus mr-2"></i>
+                  Ajouter Joueur
+                </Button>
+              </DialogTrigger>
             <DialogContent className="bg-game-surface border-gray-700">
               <DialogHeader>
                 <DialogTitle>Ajouter un nouveau joueur</DialogTitle>
@@ -85,6 +86,7 @@ export function PlayersGrid({ gameId }: PlayersGridProps) {
               </div>
             </DialogContent>
           </Dialog>
+          )}
 
           <Button 
             variant="destructive"

@@ -80,8 +80,13 @@ export default function Game() {
         </div>
       </div>
 
-      <div className="h-20" /> {/* Space for bottom navigation */}
-      <BottomNavigation />
+      {/* Only show bottom navigation during active game phases */}
+      {currentPhase && currentPhase.type !== "preparation" && (
+        <>
+          <div className="h-20" /> {/* Space for bottom navigation */}
+          <BottomNavigation />
+        </>
+      )}
     </div>
   );
 }
