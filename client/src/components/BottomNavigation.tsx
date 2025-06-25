@@ -49,11 +49,11 @@ export function BottomNavigation({ onPauseGame, onNextPhase }: BottomNavigationP
     
     switch (currentPhase.type) {
       case "preparation":
-        return "Commencer la Nuit";
+        return "Commencer la Nuit 1";
       case "night":
-        return "Passer au Jour";
+        return "Lever du Jour";
       case "day":
-        return "Passer à la Nuit";
+        return "Commencer la Nuit";
       case "finished":
         return "Partie terminée";
       default:

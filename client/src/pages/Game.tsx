@@ -18,20 +18,20 @@ export default function Game() {
     if (game) {
       dispatch({ type: "SET_GAME", payload: game });
       
-      // Create initial phase based on game status
+      // Create initial phase based on game status only once
       const phase = createPhase(
         game.currentPhase as any, 
         game.phaseNumber || 1
       );
       dispatch({ type: "SET_PHASE", payload: phase });
     }
-  }, [game?.id, dispatch, createPhase]);
+  }, [game?.id]);
 
   useEffect(() => {
     if (players && Array.isArray(players)) {
       dispatch({ type: "SET_PLAYERS", payload: players });
     }
-  }, [players?.length, dispatch]);
+  }, [players?.length]);
 
   if (isLoading) {
     return (

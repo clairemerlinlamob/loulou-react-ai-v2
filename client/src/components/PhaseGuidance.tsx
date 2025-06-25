@@ -2,6 +2,7 @@ import { useGameContext } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getStepAnnouncement, getNextPhase } from "@/utils/phaseHelpers";
+import { PreparationGuide } from "./PreparationGuide";
 
 export function PhaseGuidance() {
   const { currentPhase, dispatch, createPhase } = useGameContext();
@@ -112,15 +113,16 @@ export function PhaseGuidance() {
           <Button
             size="sm"
             onClick={handleNext}
-            disabled={false}
             className="flex-1 bg-wolf-purple hover:bg-purple-600"
           >
             {currentPhase.currentStepIndex === currentPhase.steps.length - 1 
               ? "Phase Suivante" 
-              : "Suivant"}
+              : "Étape Suivante"}
             <i className="fas fa-arrow-right ml-1"></i>
           </Button>
         </div>
+
+        {currentPhase.type === "preparation" && <PreparationGuide />}
       </CardContent>
     </Card>
   );
