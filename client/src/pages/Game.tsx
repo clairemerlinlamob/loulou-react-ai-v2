@@ -39,7 +39,7 @@ export default function Game() {
   const handleRoleSetupComplete = (roles: Record<string, number>) => {
     setSelectedRoles(roles);
     setShowRoleConfiguration(false);
-    // Move to next step in preparation
+    // Move to step 1 (role distribution) in preparation
     dispatch({ type: "NEXT_STEP" });
   };
 

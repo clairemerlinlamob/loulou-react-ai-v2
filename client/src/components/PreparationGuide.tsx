@@ -16,8 +16,8 @@ export function PreparationGuide({ onShowRoleConfiguration, selectedRoles = {} }
   const hasPlayers = players.length > 0;
 
   const handleNextStep = () => {
-    if (currentStepIndex === 1 && Object.keys(selectedRoles).length === 0) {
-      // Go to role configuration page
+    if (currentStepIndex === 0 && hasPlayers) {
+      // After adding players, go to role configuration
       onShowRoleConfiguration?.();
       return;
     }
@@ -48,12 +48,12 @@ export function PreparationGuide({ onShowRoleConfiguration, selectedRoles = {} }
     switch (currentStepIndex) {
       case 0:
         return hasPlayers 
-          ? `${players.length} joueur(s) ajouté(s). Cliquez sur "Étape Suivante" pour continuer.`
-          : "Ajoutez au moins un joueur pour continuer vers la distribution des rôles.";
+          ? `${players.length} joueur(s) ajouté(s). Cliquez sur "Configurer les Rôles" pour continuer.`
+          : "Ajoutez au moins un joueur pour continuer vers la configuration des rôles.";
       case 1:
         return Object.keys(selectedRoles).length > 0 
           ? `Rôles configurés ! Distribuez maintenant les cartes physiques aux joueurs selon la composition choisie.`
-          : "Cliquez sur 'Configurer les Rôles' pour choisir quels rôles seront en jeu.";
+          : "Les rôles ont été configurés. Vous pouvez maintenant distribuer les cartes.";
       case 2:
         return "Tous les joueurs ont leurs cartes ! Prêt à commencer la première nuit.";
       default:
@@ -77,28 +77,19 @@ export function PreparationGuide({ onShowRoleConfiguration, selectedRoles = {} }
             </div>
           )}
 
-          {currentStepIndex === 1 && Object.keys(selectedRoles).length === 0 ? (
-            <Button
-              size="sm"
-              onClick={handleNextStep}
-              className="w-full bg-wolf-purple hover:bg-purple-600"
-            >
-              <i className="fas fa-cog mr-2"></i>
-              Configurer les Rôles
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              onClick={handleNextStep}
-              disabled={!canProceed()}
-              className="w-full bg-blue-600 hover:bg-blue-700"
-            >
-              {currentStepIndex === currentPhase.steps.length - 1 
-                ? "Commencer la Nuit 1" 
-                : "Étape Suivante"}
-              <i className="fas fa-arrow-right ml-2"></i>
-            </Button>
-          )}
+          <Button
+            size="sm"
+            onClick={handleNextStep}
+            disabled={!canProceed()}
+            className="w-full bg-blue-600 hover:bg-blue-700"
+          >
+            {currentStepIndex === 0 && hasPlayers 
+              ? "Configurer les Rôles"
+              : currentStepIndex === currentPhase.steps.length - 1 
+              ? "Commencer la Nuit 1" 
+              : "Étape Suivante"}
+            <i className="fas fa-arrow-right ml-2"></i>
+          </Button>
         </div>
       </CardContent>
     </Card>
