@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "wouter";
 import { AppHeader } from "@/components/AppHeader";
 import { PhaseGuidance } from "@/components/PhaseGuidance";
 import { PlayersGrid } from "@/components/PlayersGrid";
 import { BottomNavigation } from "@/components/BottomNavigation";
-import { RoleConfiguration } from "@/components/RoleConfiguration";
 import { useGame } from "@/hooks/useGame";
 import { useGameContext } from "@/contexts/GameContext";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,8 +13,6 @@ export default function Game() {
   const gameId = parseInt(id as string);
   const { game, players, isLoading } = useGame(gameId);
   const { dispatch, createPhase, currentPhase } = useGameContext();
-  const [showRoleConfiguration, setShowRoleConfiguration] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (game) {
@@ -35,21 +32,6 @@ export default function Game() {
       dispatch({ type: "SET_PLAYERS", payload: players });
     }
   }, [players?.length]);
-
-  const handleRoleSetupComplete = (roles: Record<string, number>) => {
-    setSelectedRoles(roles);
-    setShowRoleConfiguration(false);
-    // Move to step 1 (role distribution) in preparation
-    dispatch({ type: "NEXT_STEP" });
-  };
-
-  const handleShowRoleConfiguration = () => {
-    setShowRoleConfiguration(true);
-  };
-
-  const handleBackFromRoleConfiguration = () => {
-    setShowRoleConfiguration(false);
-  };
 
   if (isLoading) {
     return (
@@ -93,21 +75,8 @@ export default function Game() {
       
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {showRoleConfiguration ? (
-            <RoleConfiguration
-              playerCount={players.length}
-              onRoleSetupComplete={handleRoleSetupComplete}
-              onBack={handleBackFromRoleConfiguration}
-            />
-          ) : (
-            <>
-              <PhaseGuidance 
-                onShowRoleConfiguration={handleShowRoleConfiguration}
-                selectedRoles={selectedRoles}
-              />
-              <PlayersGrid gameId={gameId} />
-            </>
-          )}
+          <PhaseGuidance />
+          <PlayersGrid gameId={gameId} />
         </div>
       </div>
 
