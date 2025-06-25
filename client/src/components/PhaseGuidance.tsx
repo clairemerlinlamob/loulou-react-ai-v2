@@ -1,10 +1,10 @@
 import { useGameContext } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getStepAnnouncement } from "@/utils/phaseHelpers";
+import { getStepAnnouncement, getNextPhase } from "@/utils/phaseHelpers";
 
 export function PhaseGuidance() {
-  const { currentPhase, dispatch } = useGameContext();
+  const { currentPhase, dispatch, createPhase } = useGameContext();
 
   if (!currentPhase) {
     return (
@@ -23,11 +23,25 @@ export function PhaseGuidance() {
   }
 
   const currentStep = currentPhase.steps[currentPhase.currentStepIndex];
-  const canGoNext = currentPhase.currentStepIndex < currentPhase.steps.length - 1;
+  const canGoNext = currentPhase.currentStepIndex <= currentPhase.steps.length - 1;
   const canGoPrevious = currentPhase.currentStepIndex > 0;
 
   const handleNext = () => {
-    dispatch({ type: "NEXT_STEP" });
+    if (currentPhase.currentStepIndex === currentPhase.steps.length - 1) {
+      // If we're at the last step, transition to next phase
+      const nextPhaseType = getNextPhase(currentPhase.type);
+      
+      if (nextPhaseType !== currentPhase.type) {
+        const nextNumber = nextPhaseType === "day" ? currentPhase.number : 
+                          nextPhaseType === "night" ? currentPhase.number + 1 : 
+                          currentPhase.number;
+        
+        const newPhase = createPhase(nextPhaseType as any, nextNumber);
+        dispatch({ type: "SET_PHASE", payload: newPhase });
+      }
+    } else {
+      dispatch({ type: "NEXT_STEP" });
+    }
   };
 
   const handlePrevious = () => {
@@ -98,10 +112,12 @@ export function PhaseGuidance() {
           <Button
             size="sm"
             onClick={handleNext}
-            disabled={!canGoNext}
+            disabled={false}
             className="flex-1 bg-wolf-purple hover:bg-purple-600"
           >
-            Suivant
+            {currentPhase.currentStepIndex === currentPhase.steps.length - 1 
+              ? "Phase Suivante" 
+              : "Suivant"}
             <i className="fas fa-arrow-right ml-1"></i>
           </Button>
         </div>

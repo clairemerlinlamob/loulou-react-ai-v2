@@ -59,10 +59,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case "NEXT_STEP":
       if (!state.currentPhase) return state;
-      const nextStepIndex = Math.min(
-        state.currentPhase.currentStepIndex + 1,
-        state.currentPhase.steps.length - 1
-      );
+      
+      // Allow going beyond the last step to trigger phase transition
+      const nextStepIndex = state.currentPhase.currentStepIndex + 1;
+      
+      if (nextStepIndex >= state.currentPhase.steps.length) {
+        // Don't update if we're already at the end - let the component handle phase transition
+        return state;
+      }
+      
       return {
         ...state,
         currentPhase: {

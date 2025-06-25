@@ -9,7 +9,7 @@ interface BottomNavigationProps {
 }
 
 export function BottomNavigation({ onPauseGame, onNextPhase }: BottomNavigationProps) {
-  const { currentPhase, dispatch } = useGameContext();
+  const { currentPhase, dispatch, createPhase } = useGameContext();
   const { formattedTime, isRunning, pause, start } = useTimer({ autoStart: true });
 
   const phaseDisplay = currentPhase 
@@ -36,7 +36,9 @@ export function BottomNavigation({ onPauseGame, onNextPhase }: BottomNavigationP
           ? currentPhase.number + 1 
           : currentPhase.number;
 
-        // This would need to be implemented with proper phase creation logic
+        // Create new phase using the context method
+        const newPhase = createPhase(nextPhaseType as any, nextNumber);
+        dispatch({ type: "SET_PHASE", payload: newPhase });
         onNextPhase?.();
       }
     }
