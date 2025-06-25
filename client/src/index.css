@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 6%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 6%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(263, 70%, 50%);
+  --radius: 0.5rem;
+
+  /* Game-specific color variables */
+  --game-bg: hsl(240, 10%, 4%);
+  --game-surface: hsl(240, 10%, 6%);
+  --game-surface-light: hsl(240, 8%, 12%);
+  --status-alive: hsl(142, 76%, 36%);
+  --status-dead: hsl(220, 9%, 46%);
+  --status-love: hsl(330, 81%, 60%);
+  --phase-night: hsl(239, 54%, 16%);
+  --phase-day: hsl(45, 93%, 47%);
+  --wolf-purple: hsl(263, 70%, 64%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 6%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 6%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(263, 70%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-game-bg {
+    background-color: var(--game-bg);
+  }
+  
+  .bg-game-surface {
+    background-color: var(--game-surface);
+  }
+  
+  .bg-game-surface-light {
+    background-color: var(--game-surface-light);
+  }
+  
+  .bg-status-alive {
+    background-color: var(--status-alive);
+  }
+  
+  .bg-status-dead {
+    background-color: var(--status-dead);
+  }
+  
+  .bg-status-love {
+    background-color: var(--status-love);
+  }
+  
+  .bg-phase-night {
+    background-color: var(--phase-night);
+  }
+  
+  .bg-phase-day {
+    background-color: var(--phase-day);
+  }
+  
+  .bg-wolf-purple {
+    background-color: var(--wolf-purple);
+  }
+  
+  .text-status-alive {
+    color: var(--status-alive);
+  }
+  
+  .text-status-dead {
+    color: var(--status-dead);
+  }
+  
+  .text-status-love {
+    color: var(--status-love);
+  }
+  
+  .text-wolf-purple {
+    color: var(--wolf-purple);
+  }
+  
+  .border-status-love {
+    border-color: var(--status-love);
+  }
+}

@@ -1,0 +1,133 @@
+import type { PhaseStep } from "@/types";
+
+export const PREPARATION_STEPS: PhaseStep[] = [
+  {
+    id: "setup-players",
+    name: "Configuration des joueurs",
+    description: "Ajouter les noms des joueurs",
+    icon: "fas fa-users",
+    completed: false,
+    active: true,
+  },
+  {
+    id: "role-distribution",
+    name: "Distribution des rôles",
+    description: "Distribuer physiquement les cartes aux joueurs",
+    icon: "fas fa-cards-blank",
+    completed: false,
+    active: false,
+  },
+  {
+    id: "start-game",
+    name: "Début de partie",
+    description: "Commencer la première nuit",
+    icon: "fas fa-play",
+    completed: false,
+    active: false,
+  },
+];
+
+export const NIGHT_STEPS: PhaseStep[] = [
+  {
+    id: "voleur",
+    name: "Voleur",
+    description: "Le Voleur se réveille et peut échanger sa carte",
+    announcement: "Voleur, réveille-toi. Tu peux échanger ta carte avec l'une des deux cartes non distribuées.",
+    icon: "fas fa-mask",
+    completed: false,
+    active: false,
+    roleRequired: "voleur",
+  },
+  {
+    id: "cupidon",
+    name: "Cupidon", 
+    description: "Cupidon désigne deux joueurs amoureux",
+    announcement: "Cupidon, réveille-toi. Désigne deux joueurs qui vont tomber amoureux.",
+    icon: "fas fa-heart",
+    completed: false,
+    active: false,
+    roleRequired: "cupidon",
+  },
+  {
+    id: "amoureux",
+    name: "Amoureux",
+    description: "Les amoureux se découvrent",
+    announcement: "Amoureux, révélez-vous l'un à l'autre discrètement puis rendormez-vous.",
+    icon: "fas fa-heart-pulse",
+    completed: false,
+    active: false,
+  },
+  {
+    id: "voyante",
+    name: "Voyante",
+    description: "La Voyante découvre l'identité d'un joueur",
+    announcement: "Voyante, réveille-toi. Choisis un joueur dont tu veux connaître l'identité.",
+    icon: "fas fa-eye",
+    completed: false,
+    active: false,
+    roleRequired: "voyante",
+  },
+  {
+    id: "loups-garous",
+    name: "Loups-Garous",
+    description: "Les Loups-Garous choisissent leur victime",
+    announcement: "Loups-Garous, réveillez-vous. Choisissez votre victime pour cette nuit.",
+    icon: "fas fa-paw",
+    completed: false,
+    active: false,
+    roleRequired: "loup-garou",
+  },
+  {
+    id: "sorciere",
+    name: "Sorcière",
+    description: "La Sorcière utilise ses potions",
+    announcement: "Sorcière, réveille-toi. Veux-tu utiliser tes potions ?",
+    icon: "fas fa-flask",
+    completed: false,
+    active: false,
+    roleRequired: "sorciere",
+  },
+];
+
+export const DAY_STEPS: PhaseStep[] = [
+  {
+    id: "sunrise",
+    name: "Lever du jour",
+    description: "Annonce des événements de la nuit",
+    announcement: "Le jour se lève sur le village...",
+    icon: "fas fa-sun",
+    completed: false,
+    active: true,
+  },
+  {
+    id: "discussion",
+    name: "Discussion",
+    description: "Les joueurs débattent et s'accusent",
+    icon: "fas fa-comments",
+    completed: false,
+    active: false,
+  },
+  {
+    id: "vote",
+    name: "Vote",
+    description: "Élection du joueur à éliminer",
+    icon: "fas fa-vote-yea",
+    completed: false,
+    active: false,
+  },
+  {
+    id: "elimination",
+    name: "Élimination",
+    description: "Révélation du rôle et élimination",
+    icon: "fas fa-skull",
+    completed: false,
+    active: false,
+  },
+];
+
+export const PHASE_TRANSITIONS = {
+  preparation: "night",
+  night: "day",
+  day: "night",
+  finished: "finished",
+} as const;
