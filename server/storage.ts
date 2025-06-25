@@ -61,8 +61,16 @@ export class MemStorage implements IStorage {
     const id = this.currentGameId++;
     const now = new Date();
     const game: Game = {
-      ...insertGame,
       id,
+      userId: insertGame.userId || null,
+      status: insertGame.status || "preparation",
+      currentPhase: insertGame.currentPhase || "preparation",
+      phaseNumber: insertGame.phaseNumber || 1,
+      currentStep: insertGame.currentStep || 0,
+      startedAt: insertGame.startedAt || null,
+      finishedAt: insertGame.finishedAt || null,
+      winner: insertGame.winner || null,
+      gameData: insertGame.gameData || null,
       createdAt: now,
       updatedAt: now,
     };
@@ -102,8 +110,16 @@ export class MemStorage implements IStorage {
     const id = this.currentPlayerId++;
     const now = new Date();
     const player: Player = {
-      ...insertPlayer,
       id,
+      gameId: insertPlayer.gameId,
+      name: insertPlayer.name,
+      position: insertPlayer.position,
+      status: insertPlayer.status || "alive",
+      role: insertPlayer.role || null,
+      isInLove: insertPlayer.isInLove || false,
+      lovePartnerId: insertPlayer.lovePartnerId || null,
+      revealedAt: insertPlayer.revealedAt || null,
+      diedAt: insertPlayer.diedAt || null,
       createdAt: now,
     };
     this.players.set(id, player);

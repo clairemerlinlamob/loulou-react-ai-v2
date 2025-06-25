@@ -10,11 +10,19 @@ export function useGame(gameId?: number) {
 
   const gameQuery = useQuery({
     queryKey: ["/api/games", gameId],
+    queryFn: async () => {
+      const res = await apiRequest("GET", `/api/games/${gameId}`);
+      return await res.json();
+    },
     enabled: !!gameId,
   });
 
   const playersQuery = useQuery({
     queryKey: ["/api/games", gameId, "players"],
+    queryFn: async () => {
+      const res = await apiRequest("GET", `/api/games/${gameId}/players`);
+      return await res.json();
+    },
     enabled: !!gameId,
   });
 

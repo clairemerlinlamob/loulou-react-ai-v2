@@ -56,13 +56,14 @@ export default function Game() {
     );
   }
 
-  if (!game) {
+  if (!isLoading && !game) {
     return (
       <div className="min-h-screen bg-game-bg text-white flex items-center justify-center">
         <div className="text-center">
           <i className="fas fa-exclamation-triangle text-4xl text-yellow-400 mb-4"></i>
           <h2 className="text-2xl font-bold mb-2">Partie non trouvée</h2>
           <p className="text-gray-400">La partie demandée n'existe pas ou a été supprimée.</p>
+          <p className="text-sm text-gray-500 mt-2">ID de partie: {gameId}</p>
         </div>
       </div>
     );
