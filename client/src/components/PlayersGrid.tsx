@@ -99,7 +99,7 @@ export function PlayersGrid({ gameId }: PlayersGridProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {players.map((player) => (
+        {players.map((player: any) => (
           <PlayerCard 
             key={player.id} 
             player={player} 
