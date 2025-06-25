@@ -12,7 +12,7 @@ export default function Game() {
   const { id } = useParams();
   const gameId = parseInt(id as string);
   const { game, players, isLoading } = useGame(gameId);
-  const { dispatch, createPhase } = useGameContext();
+  const { dispatch, createPhase, currentPhase } = useGameContext();
 
   useEffect(() => {
     if (game) {

@@ -104,7 +104,10 @@ LOULOU is a modern web application designed to assist game masters in conducting
 - **Migrations**: Located in `./migrations` directory
 
 ## Changelog
-- June 25, 2025. Initial setup
+- June 25, 2025. Initial setup and complete LOULOU application implementation
+- June 25, 2025. Added role setup system with automatic suggestions
+- June 25, 2025. Implemented progressive role revelation during gameplay
+- June 25, 2025. Added phase-specific UI controls and navigation
 
 ## User Preferences
 
