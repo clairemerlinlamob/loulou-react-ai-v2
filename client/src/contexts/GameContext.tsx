@@ -128,7 +128,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
 
   const createPhase = (type: GamePhase["type"], number: number): GamePhase => {
-    let steps: any[];
+    let steps;
     switch (type) {
       case "preparation":
         steps = [...PREPARATION_STEPS];
@@ -146,7 +146,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     return {
       type,
       number,
-      steps: steps.map((step: any, index: number) => ({
+      steps: steps.map((step, index) => ({
         ...step,
         active: index === 0,
         completed: false,

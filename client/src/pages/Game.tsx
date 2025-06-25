@@ -12,7 +12,7 @@ export default function Game() {
   const { id } = useParams();
   const gameId = parseInt(id as string);
   const { game, players, isLoading } = useGame(gameId);
-  const { dispatch, createPhase, currentPhase } = useGameContext();
+  const { dispatch, createPhase } = useGameContext();
 
   useEffect(() => {
     if (game) {
@@ -80,13 +80,8 @@ export default function Game() {
         </div>
       </div>
 
-      {/* Only show bottom navigation during active game phases */}
-      {currentPhase && currentPhase.type !== "preparation" && (
-        <>
-          <div className="h-20" /> {/* Space for bottom navigation */}
-          <BottomNavigation />
-        </>
-      )}
+      <div className="h-20" /> {/* Space for bottom navigation */}
+      <BottomNavigation />
     </div>
   );
 }

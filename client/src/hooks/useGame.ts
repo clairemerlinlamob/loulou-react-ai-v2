@@ -38,64 +38,36 @@ export function useGame(gameId?: number) {
   });
 
   const updateGameMutation = useMutation({
-    mutationFn: async ({
-      id,
-      updates,
-    }: {
-      id: number;
-      updates: UpdateGame;
-    }) => {
+    mutationFn: async ({ id, updates }: { id: number; updates: UpdateGame }) => {
       const res = await apiRequest("PATCH", `/api/games/${id}`, updates);
       return await res.json();
     },
     onSuccess: (updatedGame) => {
-      queryClient.invalidateQueries({
-        queryKey: ["/api/games", updatedGame.id],
-      });
+      queryClient.invalidateQueries({ queryKey: ["/api/games", updatedGame.id] });
       dispatch({ type: "SET_GAME", payload: updatedGame });
     },
   });
 
   const createPlayerMutation = useMutation({
-    mutationFn: async ({
-      gameId,
-      playerData,
-    }: {
-      gameId: number;
-      playerData: Partial<Player>;
-    }) => {
-      const res = await apiRequest(
-        "POST",
-        `/api/games/${gameId}/players`,
-        playerData,
-      );
+    mutationFn: async ({ gameId, playerData }: { gameId: number; playerData: Partial<Player> }) => {
+      const res = await apiRequest("POST", `/api/games/${gameId}/players`, playerData);
       return await res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["/api/games", gameId, "players"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["/api/games", gameId, "players"] });
     },
   });
 
   const updatePlayerMutation = useMutation({
-    mutationFn: async ({
-      id,
-      updates,
-    }: {
-      id: number;
-      updates: UpdatePlayer;
-    }) => {
+    mutationFn: async ({ id, updates }: { id: number; updates: UpdatePlayer }) => {
       const res = await apiRequest("PATCH", `/api/players/${id}`, updates);
       return await res.json();
     },
     onSuccess: (updatedPlayer) => {
-      queryClient.invalidateQueries({
-        queryKey: ["/api/games", gameId, "players"],
-      });
-      dispatch({
-        type: "UPDATE_PLAYER",
-        payload: { id: updatedPlayer.id, updates: updatedPlayer },
+      queryClient.invalidateQueries({ queryKey: ["/api/games", gameId, "players"] });
+      dispatch({ 
+        type: "UPDATE_PLAYER", 
+        payload: { id: updatedPlayer.id, updates: updatedPlayer }
       });
     },
   });
@@ -103,41 +75,40 @@ export function useGame(gameId?: number) {
   const revealRole = async (playerId: number, role: string) => {
     await updatePlayerMutation.mutateAsync({
       id: playerId,
-      updates: {
-        role,
-        revealedAt: new Date(),
-      },
+      updates: { 
+        role, 
+        revealedAt: new Date().toISOString() as any
+      }
     });
   };
 
   const killPlayer = async (playerId: number) => {
     await updatePlayerMutation.mutateAsync({
       id: playerId,
-      updates: {
-        status: "dead",
-        diedAt: new Date(),
-      },
+      updates: { 
+        status: "dead", 
+        diedAt: new Date().toISOString() as any
+      }
     });
   };
 
   const resurrectPlayer = async (playerId: number) => {
     await updatePlayerMutation.mutateAsync({
       id: playerId,
-      updates: {
-        status: "alive",
-        diedAt: null,
-      },
+      updates: { 
+        status: "alive", 
+        diedAt: null
+      }
     });
   };
 
   const toggleLove = async (playerId: number, partnerId?: number) => {
     await updatePlayerMutation.mutateAsync({
       id: playerId,
-      updates: {
-        isInLove: !playersQuery.data?.find((p: Player) => p.id === playerId)
-          ?.isInLove,
-        lovePartnerId: partnerId || null,
-      },
+      updates: { 
+        isInLove: !playersQuery.data?.find((p: Player) => p.id === playerId)?.isInLove,
+        lovePartnerId: partnerId || null
+      }
     });
   };
 
