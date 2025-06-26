@@ -83,9 +83,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.patch("/api/players/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      console.log("Update player request:", req.body);
       const updates = updatePlayerSchema.parse(req.body);
-      console.log("Parsed updates:", updates);
       const player = await storage.updatePlayer(id, updates);
       if (!player) {
         return res.status(404).json({ error: "Player not found" });
@@ -93,7 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(player);
     } catch (error) {
       console.error("Player update error:", error);
-      res.status(400).json({ error: "Invalid update data", details: error.message });
+      res.status(400).json({ error: "Invalid update data" });
     }
   });
 

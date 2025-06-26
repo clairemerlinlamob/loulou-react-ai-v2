@@ -64,7 +64,10 @@ export const updatePlayerSchema = createInsertSchema(players).omit({
   id: true,
   gameId: true,
   createdAt: true,
-}).partial();
+}).partial().extend({
+  revealedAt: z.union([z.date(), z.string().transform((str) => new Date(str))]).optional(),
+  diedAt: z.union([z.date(), z.string().transform((str) => new Date(str))]).optional(),
+});
 
 // Types
 export type User = typeof users.$inferSelect;
